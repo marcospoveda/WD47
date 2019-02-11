@@ -1,0 +1,16 @@
+{
+  "schedule": [
+    {
+      "name": "Marcos",
+      "email": "marcospoveda@uol.com.br",
+      "id": 1,
+      "phone": "11989731133"
+    },
+    {
+      "name": "Teste",
+      "email": "teste@teste.com",
+      "phone": "6666-9999",
+      "id": 2
+    }
+  ]
+}
