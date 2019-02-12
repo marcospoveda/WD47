@@ -76,7 +76,22 @@
 
     var cleanFields = () => ui.fields.forEach(field => field.value = "");
 
-    var getContacts = function(){};
+    var getContacts = () => {
+        var config = {
+            method: "get",
+            headers: new Headers({
+                "Content-type": "application/json"
+            })
+        };
+        fetch(endpoint, config)
+            .then(res => {return res.json()})
+            .then(getContactsSuccess)
+            .catch(genericError);
+    };
+
+    var getContactsSuccess = function(contacts){
+        console.table(contacts);
+    }
 
     var removeContact = function(){};
 
