@@ -60,9 +60,21 @@
             })
         };
         console.log(config);
+        //fetch API - lança comunicação de erro. Em caso de sucesso cai no then() em caso de erro cai no catch()
+        // fetch() recebe dois parâmetros. "aonde vai bater(Endpoint)" e quais a configurações do arquivo (config)
+        fetch(endpoint, config)
+            .then(function(){
+                console.log("Sucesso!!!", arguments[0]);
+                getContacts();
+            })
+            .catch(function(){
+                console.log("Erro!!!", arguments);
+            });
     };
 
-    var getContacts = function(){};
+    var getContacts = function(){
+        debugger;
+    };
 
     var removeContact = function(){};
 
