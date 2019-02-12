@@ -7,7 +7,7 @@
     var ui = {
         fields: document.querySelectorAll("input"),
         button: document.querySelector(".pure-button"),
-        table: document.querySelector(".pure-table")
+        table: document.querySelector(".pure-table tbody")
     };
 
     // ações da tela
@@ -89,14 +89,55 @@
             .catch(genericError);
     };
 
-    var getContactsSuccess = function(contacts){
-        console.table(contacts);
-    }
+    var getContactsSuccess = contacts => {
+        var html = [];
+        // console.table(contacts);
+        contacts.forEach(contact => {
+            console.log(contact.id, contact.name, contact.email, contact.phone);
+            html.push(`<tr>
+            <td>${contact.id}</td>
+            <td>${contact.name}</td>
+            <td>${contact.email}</td>
+            <td>${contact.phone}</td>
+            <td>
+                <a href="#" data-action="delete" data-id="${contact.id}">Excluir</a>
+            </td>
+            </tr>`);
+        });
+        if(contacts.length === 0){
+            html.push(`<tr>
+            <td colspan="5">Não existem dados registrados!</td>
+            </tr>`);
+        }
+        console.log(html.join(""));
+        ui.table.innerHTML = html.join("");
+    };
 
-    var removeContact = function(){};
+    var removeContact = function(id){
+        var config = {
+            method: "delete",
+            headers: new Headers({
+                "Content-Type":"application/json"
+            })
+        };
+
+        fetch(`${endpoint}/${id}`, config)
+            .then(getContacts)
+            .catch(genericError)
+    };
+
+    var handlerAction = function(e){
+        // console.log(this);
+        if(e.target.dataset.action === "delete"){
+            removeContact(e.target.dataset.id);
+        }
+
+    };
 
     var init = function(){
         ui.button.onclick = validateFields;
+        ui.table.onclick = handlerAction;
+        getContacts();
     }();
 
     console.log(ui);
