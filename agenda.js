@@ -17,28 +17,28 @@
         console.log("botão clicado", ui.fields);
         var data = {};
         var errors = 0;
-        ui.fields.forEach(function(field){
-            var fieldValue = field.value.trim();
-            // console.log(field.value, field.value.length, field.id);
-            if(fieldValue.length === 0){
-                field.classList.add("error");
-                errors++;
-            } else {
-                field.classList.remove("error");
-                data[field.id] = fieldValue;
-            }
-        });
-
-        // // Arrow Function
-        // ui.fields.forEach(field => {
-        //     if(field.value.trim().length === 0){
+        // ui.fields.forEach(function(field){
+        //     var fieldValue = field.value.trim();
+        //     // console.log(field.value, field.value.length, field.id);
+        //     if(fieldValue.length === 0){
         //         field.classList.add("error");
         //         errors++;
         //     } else {
         //         field.classList.remove("error");
-        //         data[field.id] = field.value.trim();
+        //         data[field.id] = fieldValue;
         //     }
         // });
+
+        // // Arrow Function
+        ui.fields.forEach(field => {
+            if(field.value.trim().length === 0){
+                field.classList.add("error");
+                errors++;
+            } else {
+                field.classList.remove("error");
+                data[field.id] = field.value.trim();
+            }
+        });
 
         if(errors > 0){
             document.querySelector(".error").focus();
@@ -60,21 +60,23 @@
             })
         };
         console.log(config);
-        //fetch API - lança comunicação de erro. Em caso de sucesso cai no then() em caso de erro cai no catch()
+        //fetch API - lança comunicação de rede. Em caso de sucesso cai no then() em caso de erro cai no catch()
         // fetch() recebe dois parâmetros. "aonde vai bater(Endpoint)" e quais a configurações do arquivo (config)
         fetch(endpoint, config)
-            .then(function(){
-                console.log("Sucesso!!!", arguments[0]);
-                getContacts();
-            })
-            .catch(function(){
-                console.log("Erro!!!", arguments);
-            });
+            .then(addContactSuccess)
+            .catch(genericError);
     };
 
-    var getContacts = function(){
-        debugger;
+    var genericError = () => console.error(arguments);
+
+    var addContactSuccess = () => {
+        cleanFields();
+        getContacts();
     };
+
+    var cleanFields = () => ui.fields.forEach(field => field.value = "");
+
+    var getContacts = function(){};
 
     var removeContact = function(){};
 
